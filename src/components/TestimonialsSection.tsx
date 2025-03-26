@@ -1,4 +1,6 @@
 
+import { useEffect, useState, useRef } from 'react';
+
 const testimonials = [
   {
     name: "Priya Sharma",
@@ -21,14 +23,39 @@ const testimonials = [
 ];
 
 const TestimonialsSection = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div id="testimonials" className="py-24 bg-secondary/50 overflow-hidden">
+    <div id="testimonials" className="py-24 bg-secondary/10 overflow-hidden" ref={sectionRef}>
       <div className="container mx-auto px-6">
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
+          <h2 className={`text-3xl md:text-4xl font-display font-bold mb-6 transition-all duration-700 transform ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}>
             What Our Community Says
           </h2>
-          <p className="text-lg text-muted-foreground">
+          <p className={`text-lg text-muted-foreground transition-all duration-700 delay-100 transform ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}>
             Hear from students and alumni who have experienced the CampusConnect advantage.
           </p>
         </div>
@@ -37,24 +64,29 @@ const TestimonialsSection = () => {
           {testimonials.map((testimonial, index) => (
             <div 
               key={testimonial.name} 
-              className="bg-white p-6 rounded-2xl border border-border shadow-sm animate-fade-in"
-              style={{ animationDelay: `${index * 150}ms` }}
+              className={`glass-panel backdrop-blur-md bg-white/5 p-6 rounded-2xl border border-white/10 shadow-xl transition-all duration-700 transform ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              }`}
+              style={{ animationDelay: `${index * 150}ms`, transitionDelay: `${index * 150}ms` }}
             >
               <div className="flex items-center mb-6">
-                <div className="mr-4">
+                <div className="mr-4 relative">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary to-accent blur-sm transform scale-110 opacity-50"></div>
                   <img 
                     src={testimonial.image} 
                     alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover border-2 border-primary"
+                    className="w-12 h-12 rounded-full object-cover relative z-10 border-2 border-primary/50"
                   />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg">{testimonial.name}</h3>
+                  <h3 className="font-semibold text-lg text-foreground">{testimonial.name}</h3>
                   <p className="text-muted-foreground text-sm">{testimonial.role}</p>
                 </div>
               </div>
-              <blockquote>
-                <p className="text-foreground italic">"{testimonial.quote}"</p>
+              <blockquote className="relative">
+                <span className="absolute -top-2 -left-2 text-4xl text-primary/20">"</span>
+                <p className="text-foreground italic pl-4 relative z-10">{testimonial.quote}</p>
+                <span className="absolute -bottom-6 -right-2 text-4xl text-primary/20">"</span>
               </blockquote>
             </div>
           ))}
