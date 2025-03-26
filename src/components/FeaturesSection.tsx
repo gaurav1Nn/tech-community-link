@@ -59,42 +59,6 @@ const FeaturesSection = () => {
             <FeatureCard key={feature.title} feature={feature} index={index} />
           ))}
         </div>
-
-        <div className="mt-24 max-w-5xl mx-auto bg-white rounded-2xl p-8 lg:p-12 shadow-lg border border-border">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="animate-slide-in">
-              <h3 className="text-2xl md:text-3xl font-display font-bold mb-6">How We Compare to LinkedIn</h3>
-              <p className="text-muted-foreground mb-8">
-                While LinkedIn connects you to the global professional network, CampusConnect focuses on your college tech ecosystem specifically.
-              </p>
-              
-              <div className="space-y-6">
-                {[
-                  "College-specific tech community vs global network",
-                  "Personalized tech roadmaps vs generic skill endorsements",
-                  "Campus tech events vs random global events",
-                  "Detailed interview experiences from your seniors",
-                  "Achievement tracking specific to your college ecosystem"
-                ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-3">
-                    <div className="mt-1 bg-primary/10 rounded-full p-1">
-                      <Check size={16} className="text-primary" />
-                    </div>
-                    <span className="text-foreground">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            <div className="rounded-xl overflow-hidden shadow-lg border border-border animate-slide-up" style={{ animationDelay: '300ms' }}>
-              <img 
-                src="https://images.unsplash.com/photo-1601933470096-0e34634ffcde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" 
-                alt="Platform comparison" 
-                className="w-full h-auto"
-              />
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
